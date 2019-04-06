@@ -3,6 +3,10 @@
 [![Build Status](https://travis-ci.org/fidelisa/flutter_plugins.svg?branch=master)](https://travis-ci.org/fidelisa/flutter_plugins)
 [![pub package](https://img.shields.io/pub/v/firebase_ui.svg)](https://pub.dartlang.org/packages/firebase_ui)
 
+Fork of https://pub.dartlang.org/packages/flutter_firebase_ui
+
+Old package wasnt being maintained so i created this one to update;
+
 firebase_ui is a library that help you to quickly implement firebase authentication.
 It provider UI for the common identity providers, Facebook, Google, Twitter and email. 
 
