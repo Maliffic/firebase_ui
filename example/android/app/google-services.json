@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "417099856437",
+    "firebase_url": "https://flutter-plugins.firebaseio.com",
+    "project_id": "flutter-plugins",
+    "storage_bucket": "flutter-plugins.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417099856437:android:b06d9261558ca03a",
+        "android_client_info": {
+          "package_name": "com.fidelisa.flutterplugins"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "417099856437-4im65rk0ch0f9u9d5iajrkivi93fu8o9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuQiPFB9mU2_VWL77jtO7XPV1fKo0S-Tg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
