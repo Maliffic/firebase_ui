@@ -7,17 +7,18 @@ import 'login_view.dart';
 import 'utils.dart';
 
 class SignInScreen extends StatefulWidget {
-  SignInScreen({
-    Key key,
-    this.title,
-    this.header,
-    this.footer,
-    this.signUpPasswordCheck,
-    this.providers,
-    this.color = Colors.white,
-    this.twitterConsumerKey,
-    this.twitterConsumerSecret,
-  }) : super(key: key);
+  SignInScreen(
+      {Key key,
+      this.title,
+      this.header,
+      this.footer,
+      this.signUpPasswordCheck,
+      this.providers,
+      this.color = Colors.white,
+      this.twitterConsumerKey,
+      this.twitterConsumerSecret,
+      this.showBar})
+      : super(key: key);
 
   final String title;
   final Widget header;
@@ -27,6 +28,7 @@ class SignInScreen extends StatefulWidget {
   final bool signUpPasswordCheck;
   final String twitterConsumerKey;
   final String twitterConsumerSecret;
+  final bool showBar;
 
   @override
   _SignInScreenState createState() => new _SignInScreenState();
@@ -43,10 +45,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-        elevation: 4.0,
-      ),
+      appBar: widget.showBar
+          ? new AppBar(
+              title: new Text(widget.title),
+              elevation: 4.0,
+            )
+          : null,
       body: new Builder(
         builder: (BuildContext context) {
           return new Container(
