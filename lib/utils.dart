@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:meta/meta.dart';
 
 import 'package:firebase_ui/l10n/localization.dart';
 
@@ -59,26 +58,22 @@ class ButtonDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoidCallback _onSelected = onSelected ?? () => {};
-    return new Padding(
-      padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
-      child: new RaisedButton(
-          color: color,
-          child: new Row(
-            children: <Widget>[
-              new Container(
-                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 32.0, 16.0),
-                  child:
-                      new Image.asset('assets/$logo', package: 'firebase_ui')),
-              new Expanded(
-                child: new Text(
-                  label,
-                  style: new TextStyle(color: labelColor),
-                ),
-              )
-            ],
-          ),
-          onPressed: _onSelected),
-    );
+    return new RaisedButton(
+        color: color,
+        child: new Row(
+          children: <Widget>[
+            new Container(
+                padding: const EdgeInsets.fromLTRB(16.0, 16.0, 32.0, 16.0),
+                child: new Image.asset('assets/$logo', package: 'firebase_ui')),
+            new Expanded(
+              child: new Text(
+                label,
+                style: new TextStyle(color: labelColor),
+              ),
+            )
+          ],
+        ),
+        onPressed: _onSelected);
   }
 }
 

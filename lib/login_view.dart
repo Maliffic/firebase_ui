@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
-import 'package:meta/meta.dart';
 
 import 'email_view.dart';
 import 'utils.dart';
@@ -13,14 +12,16 @@ class LoginView extends StatefulWidget {
   final bool passwordCheck;
   final String twitterConsumerKey;
   final String twitterConsumerSecret;
+  EdgeInsets padding;
 
-  LoginView({
-    Key key,
-    @required this.providers,
-    this.passwordCheck,
-    this.twitterConsumerKey,
-    this.twitterConsumerSecret,
-  }) : super(key: key);
+  LoginView(
+      {Key key,
+      @required this.providers,
+      this.passwordCheck,
+      this.twitterConsumerKey,
+      this.twitterConsumerSecret,
+      this.padding})
+      : super(key: key);
 
   @override
   _LoginViewState createState() => new _LoginViewState();
@@ -118,8 +119,7 @@ class _LoginViewState extends State<LoginView> {
         child: new ListView(
             children: widget.providers.map((p) {
       return new Container(
-          padding: const EdgeInsets.symmetric(vertical: 0.0),
-          child: _buttons[p] ?? new Container());
+          padding: widget.padding, child: _buttons[p] ?? new Container());
     }).toList()));
   }
 

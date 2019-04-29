@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_ui/firebase_ui.dart';
+import 'package:firebase_ui/flutter_firebase_ui.dart';
 import 'package:firebase_ui/l10n/localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     if (_currentUser == null) {
       return new SignInScreen(
-        title: "Bienvenue",
+        title: "Demo",
         header: new Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: new Padding(
@@ -73,6 +73,10 @@ class _MyHomePageState extends State<MyHomePage> {
             child: new Text("Demo"),
           ),
         ),
+        showBar: true,
+        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+        avoidBottomInset: true,
+        color: Color(0xFF363636),
         providers: [
           ProvidersTypes.google,
           ProvidersTypes.facebook,

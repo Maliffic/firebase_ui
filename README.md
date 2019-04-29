@@ -3,6 +3,12 @@
 [![Build Status](https://travis-ci.org/fidelisa/flutter_plugins.svg?branch=master)](https://travis-ci.org/fidelisa/flutter_plugins)
 [![pub package](https://img.shields.io/pub/v/firebase_ui.svg)](https://pub.dartlang.org/packages/firebase_ui)
 
+UPDATE 1.0.1:
+
+Added some new features namely adding an option avoidBottomInset and also to pass in custom padding.
+
+added screenshot of a build method with new features, or you can take a look at the demo.
+
 Fork of https://pub.dartlang.org/packages/flutter_firebase_ui
 
 Old package wasnt being maintained so i created this one to update;
@@ -13,9 +19,11 @@ It provider UI for the common identity providers, Facebook, Google, Twitter and 
 Note: this plugin use firebase_auth you must configure it as describe [here](https://pub.dartlang.org/packages/firebase_auth).
 
 
-![screenshot](https://github.com/fidelisa/flutter_plugins/blob/master/packages/firebase_ui/swipe.gif?raw=true)
+![screenshot](https://i.gyazo.com/cbb58dcfcbb16c45d314e8e885e84c6c.png)
 
-Show [firebase ui](https://github.com/fidelisa/flutter_plugins/tree/master/packages/firebase_ui/example) example.
+![screenshot](https://i.gyazo.com/32b79e6ecc14d98558f25688cdcf5b9e.png)
+
+Show [firebase ui](https://github.com/Maliffic/firebase_ui/tree/master/example) example.
 
 ## Getting Started
 

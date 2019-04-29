@@ -17,7 +17,9 @@ class SignInScreen extends StatefulWidget {
       this.color = Colors.white,
       this.twitterConsumerKey,
       this.twitterConsumerSecret,
-      this.showBar})
+      this.showBar,
+      this.avoidBottomInset,
+      this.padding})
       : super(key: key);
 
   final String title;
@@ -29,6 +31,8 @@ class SignInScreen extends StatefulWidget {
   final String twitterConsumerKey;
   final String twitterConsumerSecret;
   final bool showBar;
+  final bool avoidBottomInset;
+  final EdgeInsets padding;
 
   @override
   _SignInScreenState createState() => new _SignInScreenState();
@@ -51,6 +55,7 @@ class _SignInScreenState extends State<SignInScreen> {
               elevation: 4.0,
             )
           : null,
+      resizeToAvoidBottomInset: widget.avoidBottomInset,
       body: new Builder(
         builder: (BuildContext context) {
           return new Container(
@@ -65,7 +70,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           providers: _providers,
                           passwordCheck: _passwordCheck,
                           twitterConsumerKey: widget.twitterConsumerKey,
-                          twitterConsumerSecret: widget.twitterConsumerSecret)),
+                          twitterConsumerSecret: widget.twitterConsumerSecret,
+                          padding: widget.padding)),
                   _footer
                 ],
               ));

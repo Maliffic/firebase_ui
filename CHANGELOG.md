@@ -1,3 +1,12 @@
+## [1.0.1] - 29/4/2019
+* update dependencies
+* added custon padding to buttoms
+* added avoidBottomInset
+
+## [0.0.19] - 19/12/2018
+* update dependencies
+* added show/hide app barq
+
 ## [0.0.13] - 19/12/2018
 * update dependencies
 * add twitter
