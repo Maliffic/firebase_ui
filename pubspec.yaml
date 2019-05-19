@@ -11,8 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_twitter_login: 
-     git: git://github.com/eudangeld/flutter_twitter_login.git
+  flutter_twitter_login: ^1.1.0
 
   firebase_auth: ^0.11.1
   
