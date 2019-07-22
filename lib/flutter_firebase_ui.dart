@@ -61,21 +61,23 @@ class _SignInScreenState extends State<SignInScreen> {
       body: new Builder(
         builder: (BuildContext context) {
           return new Container(
-              padding:
-                  EdgeInsets.symmetric(horizontal: widget.horizontalPadding),
               decoration: new BoxDecoration(color: widget.color),
               child: new Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _header,
                   new Expanded(
-                      child: new LoginView(
-                    providers: _providers,
-                    passwordCheck: _passwordCheck,
-                    twitterConsumerKey: widget.twitterConsumerKey,
-                    twitterConsumerSecret: widget.twitterConsumerSecret,
-                    bottomPadding: widget.bottomPadding,
-                  )),
+                    child: new Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: widget.horizontalPadding),
+                        child: LoginView(
+                          providers: _providers,
+                          passwordCheck: _passwordCheck,
+                          twitterConsumerKey: widget.twitterConsumerKey,
+                          twitterConsumerSecret: widget.twitterConsumerSecret,
+                          bottomPadding: widget.bottomPadding,
+                        )),
+                  ),
                   _footer
                 ],
               ));

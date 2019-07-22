@@ -1,3 +1,6 @@
+## [1.0.7] - 21/5/2019
+* fixed padding
+
 ## [1.0.6] - 21/5/2019
 * added better padding options
 * swapped listView for a column
