@@ -1,3 +1,13 @@
+## [1.0.6] - 21/5/2019
+* added better padding options
+* swapped listView for a column
+* changed twitter cancel error message
+
+## [1.0.5] - 21/5/2019
+* update dependencies
+* fixing twitter
+
+
 ## [1.0.1] - 29/4/2019
 * update dependencies
 * added custon padding to buttoms

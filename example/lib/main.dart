@@ -74,7 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         showBar: true,
-        padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+        // horizontalPadding: 8,
+        bottomPadding: 5,
         avoidBottomInset: true,
         color: Color(0xFF363636),
         providers: [
@@ -84,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ProvidersTypes.email
         ],
         twitterConsumerKey: "",
-        twitterConsumerSecret: "",
+        twitterConsumerSecret: "", horizontalPadding: 12,
       );
     } else {
       return new HomeScreen(user: _currentUser);

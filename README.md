@@ -3,12 +3,6 @@
 [![Build Status](https://travis-ci.org/fidelisa/flutter_plugins.svg?branch=master)](https://travis-ci.org/fidelisa/flutter_plugins)
 [![pub package](https://img.shields.io/pub/v/firebase_ui.svg)](https://pub.dartlang.org/packages/firebase_ui)
 
-UPDATE 1.0.1:
-
-Added some new features namely adding an option avoidBottomInset and also to pass in custom padding.
-
-added screenshot of a build method with new features, or you can take a look at the demo.
-
 Fork of https://pub.dartlang.org/packages/flutter_firebase_ui
 
 Old package wasnt being maintained so i created this one to update;

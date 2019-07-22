@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_twitter_login/flutter_twitter_login.dart';
+import 'package:flutter_twitter/flutter_twitter.dart';
 
 import 'email_view.dart';
 import 'utils.dart';
@@ -12,7 +12,7 @@ class LoginView extends StatefulWidget {
   final bool passwordCheck;
   final String twitterConsumerKey;
   final String twitterConsumerSecret;
-  EdgeInsets padding;
+  final double bottomPadding;
 
   LoginView(
       {Key key,
@@ -20,7 +20,7 @@ class LoginView extends StatefulWidget {
       this.passwordCheck,
       this.twitterConsumerKey,
       this.twitterConsumerSecret,
-      this.padding})
+      @required this.bottomPadding})
       : super(key: key);
 
   @override
@@ -91,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
         await _auth.signInWithCredential(credential);
         break;
       case TwitterLoginStatus.cancelledByUser:
-        showErrorDialog(context, result.errorMessage);
+        showErrorDialog(context, 'Login cancelled.');
         break;
       case TwitterLoginStatus.error:
         showErrorDialog(context, result.errorMessage);
@@ -116,10 +116,12 @@ class _LoginViewState extends State<LoginView> {
     };
 
     return new Container(
-        child: new ListView(
+        // padding: widget.padding,
+        child: new Column(
             children: widget.providers.map((p) {
       return new Container(
-          padding: widget.padding, child: _buttons[p] ?? new Container());
+          padding: EdgeInsets.only(bottom: widget.bottomPadding),
+          child: _buttons[p] ?? new Container());
     }).toList()));
   }
 
