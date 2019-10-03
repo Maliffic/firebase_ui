@@ -1,3 +1,6 @@
+## [1.0.8] - 02/10/2019
+* update dependencies
+
 ## [1.0.7] - 21/5/2019
 * fixed padding
 
