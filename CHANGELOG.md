@@ -1,3 +1,6 @@
+## [1.0.9] - 30/12/2019
+* update dependencies
+
 ## [1.0.8] - 02/10/2019
 * update dependencies
 
@@ -44,10 +47,10 @@
 * improve UI
 
 ## [0.0.7] - 04/07/2018
-* fixe sign in with mail 
+* fixe sign in with mail
 
 ## [0.0.6] - 30/05/2018
-* improve show dialog error 
+* improve show dialog error
 
 ## [0.0.5] - 29/05/2018
 * show error occured on unknown errors
@@ -64,9 +67,8 @@
 ## [0.0.2] - 20/03/2018
 
 * improve ui
-* change firebase_auth version 
+* change firebase_auth version
 
 ## [0.0.1] - 19/03/2018
 
 * initial release
-
