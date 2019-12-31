@@ -1,3 +1,6 @@
+## [1.0.10] - 31/12/2019
+* allow guest login
+
 ## [1.0.9] - 30/12/2019
 * update dependencies
 

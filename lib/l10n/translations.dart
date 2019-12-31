@@ -223,7 +223,7 @@ Sign in with $providerName to continue.''';
   String get signInTwitter => r'Sign in with Twitter';
 
   @override
-  String get signInGuest => r"Continue as guest";
+  String get signInGuest => r"Continue as a guest";
 }
 
 // ignore: camel_case_types

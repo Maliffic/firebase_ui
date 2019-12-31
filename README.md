@@ -5,10 +5,10 @@
 
 Fork of https://pub.dartlang.org/packages/flutter_firebase_ui
 
-Old package wasnt being maintained so i created this one to update.
+Old package wasn't being maintained so I created this one to update.
 
 firebase_ui is a library that helps you to quickly implement firebase authentication.
-It provides UI for the common identity providers like Facebook, Google, Twitter and email. 
+It provides UI for the common identity providers like Facebook, Google, Twitter and email.
 
 Note: this plugin use firebase_auth you must configure it as describe [here](https://pub.dartlang.org/packages/firebase_auth).
 

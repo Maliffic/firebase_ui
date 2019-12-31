@@ -1,6 +1,6 @@
 name: firebase_ui
 description: Firebase auth UI, dart package to mimic the firebaseUI(Google,Facebook,Twitter,Email supported)
-version: 1.0.9
+version: 1.0.10
 author: Nicholas Bowler <crucifixx25@gmail.com>
 homepage: https://github.com/Maliffic/firebase_ui
 
