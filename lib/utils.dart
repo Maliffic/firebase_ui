@@ -10,7 +10,15 @@ import 'package:firebase_ui/l10n/localization.dart';
 enum ProvidersTypes { email, google, facebook, twitter, guest, phone }
 
 final GoogleSignIn googleSignIn = new GoogleSignIn();
-final FacebookLogin facebookLogin = new FacebookLogin();
+FacebookLogin _facebookLogin;
+
+// We don't initialise this by default as we don't always want farcebook (sic).
+getFacebookLogin() {
+  if ( _facebookLogin == null) {
+    _facebookLogin = FacebookLogin();
+  }
+  return _facebookLogin;
+}
 
 ProvidersTypes stringToProvidersType(String value) {
   if (value.toLowerCase().contains('facebook')) return ProvidersTypes.facebook;
@@ -156,7 +164,7 @@ Future<dynamic> signOut(Iterable providers) async {
   return Future.forEach(providers, (p) async {
     switch (p.providerId) {
       case 'facebook.com':
-        await facebookLogin.logOut();
+        await getFacebookLogin().logOut();
         break;
       case 'google.com':
         await googleSignIn.signOut();
