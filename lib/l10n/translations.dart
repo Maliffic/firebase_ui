@@ -44,6 +44,7 @@ class TranslationBundle {
   String get signInGoogle => parent?.signInGoogle;
   String get signInEmail => parent?.signInEmail;
   String get signInTwitter => parent?.signInTwitter;
+  String get signInGuest => parent?.signInGuest;
 
   String get errorOccurred => parent?.errorOccurred;
 
@@ -135,6 +136,9 @@ Connectez-vous avec $providerName pour continuer.''';
 
   @override
   String get signInTwitter => r'Connexion avec Twitter';
+
+  @override
+  String get signInGuest => r"Continuer en tant qu'invité";
 }
 
 // ignore: camel_case_types
@@ -217,6 +221,9 @@ Sign in with $providerName to continue.''';
 
   @override
   String get signInTwitter => r'Sign in with Twitter';
+
+  @override
+  String get signInGuest => r"Continue as guest";
 }
 
 // ignore: camel_case_types
@@ -299,6 +306,9 @@ Mit $providerName anmelden um fortzufarhen.''';
 
   @override
   String get signInTwitter => r'Mit Twitter anmelden';
+
+  @override
+  String get signInGuest => r"Als Gast fortfahren";
 }
 
 // ignore: camel_case_types
@@ -378,6 +388,9 @@ Faça login com o $providerName para continuar.''';
 
   @override
   String get signInEmail => r'Login com o e-mail';
+
+  @override
+  String get signInGuest => r"Continuar como convidado";
 }
 
 // ignore: camel_case_types
@@ -459,6 +472,9 @@ Entra con $providerName para continuar.''';
   @override
   String get signInTwitter => r'Entrar con Twitter';
 }
+  @override
+  String get signInGuest => r"Continua como invitado";
+
 
 TranslationBundle translationBundleForLocale(Locale locale) {
   switch (locale.languageCode) {
