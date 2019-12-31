@@ -33,13 +33,22 @@ class _LoginViewState extends State<LoginView> {
   Map<ProvidersTypes, ButtonDescription> _buttons;
 
   _handleEmailSignIn() async {
-    String value = await Navigator.of(context)
-        .push(new MaterialPageRoute<String>(builder: (BuildContext context) {
+    String value = await Navigator.of(context).push(new MaterialPageRoute<String>(builder: (BuildContext context) {
       return new EmailView(widget.passwordCheck);
     }));
 
     if (value != null) {
       _followProvider(value);
+    }
+  }
+
+  _handleGuestSignIn() async {
+    try {
+      AuthResult authResult = await _auth.signInAnonymously();
+      FirebaseUser user = authResult.user;
+      print(user);
+    } catch (e) {
+      showErrorDialog(context, e.details ?? e.message);
     }
   }
 
@@ -49,8 +58,8 @@ class _LoginViewState extends State<LoginView> {
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       if (googleAuth.accessToken != null) {
         try {
-          AuthCredential credential = GoogleAuthProvider.getCredential(
-              idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+          AuthCredential credential =
+              GoogleAuthProvider.getCredential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
           AuthResult authResult = await _auth.signInWithCredential(credential);
           FirebaseUser user = authResult.user;
           print(user);
@@ -62,12 +71,10 @@ class _LoginViewState extends State<LoginView> {
   }
 
   _handleFacebookSignin() async {
-    FacebookLoginResult result =
-        await facebookLogin.logIn(['email']);
+    FacebookLoginResult result = await facebookLogin.logIn(['email']);
     if (result.accessToken != null) {
       try {
-        AuthCredential credential = FacebookAuthProvider.getCredential(
-            accessToken: result.accessToken.token);
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken: result.accessToken.token);
         AuthResult authResult = await _auth.signInWithCredential(credential);
         FirebaseUser user = authResult.user;
         print(user);
@@ -87,9 +94,8 @@ class _LoginViewState extends State<LoginView> {
 
     switch (result.status) {
       case TwitterLoginStatus.loggedIn:
-        AuthCredential credential = TwitterAuthProvider.getCredential(
-            authToken: result.session.token,
-            authTokenSecret: result.session.secret);
+        AuthCredential credential =
+            TwitterAuthProvider.getCredential(authToken: result.session.token, authTokenSecret: result.session.secret);
         await _auth.signInWithCredential(credential);
         break;
       case TwitterLoginStatus.cancelledByUser:
@@ -105,16 +111,15 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     _buttons = {
       ProvidersTypes.facebook:
-          providersDefinitions(context)[ProvidersTypes.facebook]
-              .copyWith(onSelected: _handleFacebookSignin),
+          providersDefinitions(context)[ProvidersTypes.facebook].copyWith(onSelected: _handleFacebookSignin),
       ProvidersTypes.google:
-          providersDefinitions(context)[ProvidersTypes.google]
-              .copyWith(onSelected: _handleGoogleSignIn),
+          providersDefinitions(context)[ProvidersTypes.google].copyWith(onSelected: _handleGoogleSignIn),
       ProvidersTypes.twitter:
-          providersDefinitions(context)[ProvidersTypes.twitter]
-              .copyWith(onSelected: _handleTwitterSignin),
-      ProvidersTypes.email: providersDefinitions(context)[ProvidersTypes.email]
-          .copyWith(onSelected: _handleEmailSignIn),
+          providersDefinitions(context)[ProvidersTypes.twitter].copyWith(onSelected: _handleTwitterSignin),
+      ProvidersTypes.email:
+          providersDefinitions(context)[ProvidersTypes.email].copyWith(onSelected: _handleEmailSignIn),
+      ProvidersTypes.guest:
+          providersDefinitions(context)[ProvidersTypes.guest].copyWith(onSelected: _handleGuestSignIn),
     };
 
     return new Container(
@@ -122,8 +127,7 @@ class _LoginViewState extends State<LoginView> {
         child: new Column(
             children: widget.providers.map((p) {
       return new Container(
-          padding: EdgeInsets.only(bottom: widget.bottomPadding),
-          child: _buttons[p] ?? new Container());
+          padding: EdgeInsets.only(bottom: widget.bottomPadding), child: _buttons[p] ?? new Container());
     }).toList()));
   }
 
