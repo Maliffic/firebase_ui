@@ -17,6 +17,7 @@ class SignInScreen extends StatefulWidget {
       this.color = Colors.white,
       this.twitterConsumerKey,
       this.twitterConsumerSecret,
+      this.allowBackAction = true,
       @required this.showBar,
       @required this.avoidBottomInset,
       @required this.bottomPadding,
@@ -35,6 +36,7 @@ class SignInScreen extends StatefulWidget {
   final bool avoidBottomInset;
   final double horizontalPadding;
   final double bottomPadding;
+  final bool allowBackAction;
 
   @override
   _SignInScreenState createState() => new _SignInScreenState();
@@ -55,6 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
           ? new AppBar(
               title: new Text(widget.title),
               elevation: 4.0,
+              automaticallyImplyLeading: widget.allowBackAction,
             )
           : null,
       resizeToAvoidBottomInset: widget.avoidBottomInset,
