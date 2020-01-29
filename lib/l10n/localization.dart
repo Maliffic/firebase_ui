@@ -84,9 +84,10 @@ class _FFULocalizationsDelegate
   static const List<String> _supportedLanguages = const <String>[
     'en', // English
     'fr', // French
-    'de', // Deutsch
+    'de', // German
     'pt', // Portuguese
     'es', // Spanish
+    'it', // Italian
   ];
 
   @override

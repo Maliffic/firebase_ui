@@ -460,6 +460,88 @@ Entra con $providerName para continuar.''';
   String get signInTwitter => r'Entrar con Twitter';
 }
 
+// ignore: camel_case_types
+class _Bundle_it extends TranslationBundle {
+  const _Bundle_it() : super(null);
+
+  @override
+  String get welcome => r'Benvenuto';
+  @override
+  String get signUpTitle => 'Registra nuovo utente';
+  @override
+  String get emailLabel => r'E-mail';
+  @override
+  String get passwordLabel => r'Password';
+
+  @override
+  String get passwordCheckLabel => r'Conferma password';
+
+  @override
+  String get passwordCheckError => r'Le due password non coincidono';
+
+  @override
+  String get nextButtonLabel => r'AVANTI';
+  @override
+  String get cancelButtonLabel => r'ANNULLA';
+  @override
+  String get signInLabel => r'ACCEDI';
+  @override
+  String get signInTitle => r'Accedi';
+
+  @override
+  String get saveLabel => r'SALVA';
+
+  @override
+  String get troubleSigningInLabel => 'Problemi ad accedere?';
+
+  @override
+  String get passwordInvalidMessage =>
+      'La password non è valida o l\'utente non dispone di una password.';
+
+  @override
+  String get recoverPasswordTitle => r'Recupera password';
+
+  @override
+  String get recoverHelpLabel =>
+      r'Ricevi istruzioni a questo indirizzo e-mail ' +
+      'per ripristinare la password';
+
+  @override
+  String get sendButtonLabel => r'INVIA';
+
+  @override
+  String get nameLabel => r'Nome e cognome';
+
+  @override
+  String get errorOccurred => r'Si è verificato un errore';
+
+  @override
+  allReadyEmailMessage(String email, String providerName) {
+    return '''Hai già utilizzato $email.
+Accedi con $providerName per continuare.''';
+  }
+
+  @override
+  recoverDialog(String email) {
+    return 'Segui le istruzioni inviate a $email per recuperare la tua password';
+  }
+
+  String get passwordLengthMessage =>
+      r'La password deve contenere almeno 6 caratteri';
+
+  @override
+  String get signInFacebook => r'Accedi con Facebook';
+
+  @override
+  String get signInGoogle => r'Accedi con Google';
+
+  @override
+  String get signInEmail => 'Accedi con l\'e-mail';
+
+  @override
+  String get signInTwitter => r'Accedi con Twitter';
+}
+
 TranslationBundle translationBundleForLocale(Locale locale) {
   switch (locale.languageCode) {
     case 'fr':
@@ -472,6 +554,8 @@ TranslationBundle translationBundleForLocale(Locale locale) {
       return const _Bundle_pt();
     case 'es':
       return const _Bundle_es();
+    case 'it':
+      return const _Bundle_it();
   }
   return const TranslationBundle(null);
 }
