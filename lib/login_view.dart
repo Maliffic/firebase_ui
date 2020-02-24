@@ -152,7 +152,7 @@ class _LoginViewState extends State<LoginView> {
           builder: (context, isAvailableSnapshot) {
             if (isAvailableSnapshot.hasData && isAvailableSnapshot.data) {
               return AppleSignInButton(
-                style: ButtonStyle.black, // style as needed
+                style: ButtonStyle.white, // style as needed
                 type: ButtonType.signIn, // style as needed
                 onPressed: () =>
                     _signInWithApple(scopes: [Scope.email, Scope.fullName]),
