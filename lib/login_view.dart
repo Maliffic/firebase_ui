@@ -1,5 +1,7 @@
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_twitter/flutter_twitter.dart';
@@ -13,6 +15,7 @@ class LoginView extends StatefulWidget {
   final String twitterConsumerKey;
   final String twitterConsumerSecret;
   final double bottomPadding;
+  final bool appleSignIn;
 
   LoginView(
       {Key key,
@@ -20,7 +23,8 @@ class LoginView extends StatefulWidget {
       this.passwordCheck,
       this.twitterConsumerKey,
       this.twitterConsumerSecret,
-      @required this.bottomPadding})
+      @required this.bottomPadding,
+      this.appleSignIn})
       : super(key: key);
 
   @override
@@ -29,8 +33,9 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Future<bool> _isAvailableFuture = AppleSignIn.isAvailable();
 
-  Map<ProvidersTypes, ButtonDescription> _buttons;
+  Map<ProvidersTypes, dynamic> _buttons;
 
   _handleEmailSignIn() async {
     String value = await Navigator.of(context)
@@ -62,8 +67,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   _handleFacebookSignin() async {
-    FacebookLoginResult result =
-        await facebookLogin.logIn(['email']);
+    FacebookLoginResult result = await facebookLogin.logIn(['email']);
     if (result.accessToken != null) {
       try {
         AuthCredential credential = FacebookAuthProvider.getCredential(
@@ -101,9 +105,62 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
+  Future<FirebaseUser> _signInWithApple({List<Scope> scopes = const []}) async {
+    // 1. perform the sign-in request
+    final result = await AppleSignIn.performRequests(
+        [AppleIdRequest(requestedScopes: scopes)]);
+    // 2. check the result
+    switch (result.status) {
+      case AuthorizationStatus.authorized:
+        final appleIdCredential = result.credential;
+        final oAuthProvider = OAuthProvider(providerId: 'apple.com');
+        final credential = oAuthProvider.getCredential(
+          idToken: String.fromCharCodes(appleIdCredential.identityToken),
+          accessToken:
+              String.fromCharCodes(appleIdCredential.authorizationCode),
+        );
+        final authResult = await _auth.signInWithCredential(credential);
+        final firebaseUser = authResult.user;
+        if (scopes.contains(Scope.fullName)) {
+          final updateUser = UserUpdateInfo();
+          updateUser.displayName =
+              '${appleIdCredential.fullName.givenName} ${appleIdCredential.fullName.familyName}';
+          await firebaseUser.updateProfile(updateUser);
+        }
+        return firebaseUser;
+      case AuthorizationStatus.error:
+        print(result.error.toString());
+        throw PlatformException(
+          code: 'ERROR_AUTHORIZATION_DENIED',
+          message: result.error.toString(),
+        );
+
+      case AuthorizationStatus.cancelled:
+        throw PlatformException(
+          code: 'ERROR_ABORTED_BY_USER',
+          message: 'Sign in aborted by user',
+        );
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     _buttons = {
+      ProvidersTypes.apple: FutureBuilder<bool>(
+          future: _isAvailableFuture,
+          builder: (context, isAvailableSnapshot) {
+            if (isAvailableSnapshot.hasData && isAvailableSnapshot.data) {
+              return AppleSignInButton(
+                style: ButtonStyle.black, // style as needed
+                type: ButtonType.signIn, // style as needed
+                onPressed: () =>
+                    _signInWithApple(scopes: [Scope.email, Scope.fullName]),
+              );
+            } else {
+              return Container();
+            }
+          }),
       ProvidersTypes.facebook:
           providersDefinitions(context)[ProvidersTypes.facebook]
               .copyWith(onSelected: _handleFacebookSignin),
@@ -120,11 +177,12 @@ class _LoginViewState extends State<LoginView> {
     return new Container(
         // padding: widget.padding,
         child: new Column(
-            children: widget.providers.map((p) {
-      return new Container(
-          padding: EdgeInsets.only(bottom: widget.bottomPadding),
-          child: _buttons[p] ?? new Container());
-    }).toList()));
+      children: widget.providers.map((p) {
+        return new Container(
+            padding: EdgeInsets.only(bottom: widget.bottomPadding),
+            child: _buttons[p] ?? new Container());
+      }).toList(),
+    ));
   }
 
   void _followProvider(String value) {

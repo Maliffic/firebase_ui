@@ -4,10 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:apple_sign_in/apple_sign_in.dart';
 
 import 'package:firebase_ui/l10n/localization.dart';
 
-enum ProvidersTypes { email, google, facebook, twitter, phone }
+enum ProvidersTypes { email, google, facebook, twitter, phone, apple }
 
 final GoogleSignIn googleSignIn = new GoogleSignIn();
 final FacebookLogin facebookLogin = new FacebookLogin();
@@ -112,27 +113,27 @@ Future<Null> showErrorDialog(BuildContext context, String message,
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) => new AlertDialog(
-          title: title != null ? new Text(title) : null,
-          content: new SingleChildScrollView(
-            child: new ListBody(
-              children: <Widget>[
-                new Text(message ?? FFULocalizations.of(context).errorOccurred),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Row(
-                children: <Widget>[
-                  new Text(FFULocalizations.of(context).cancelButtonLabel),
-                ],
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+      title: title != null ? new Text(title) : null,
+      content: new SingleChildScrollView(
+        child: new ListBody(
+          children: <Widget>[
+            new Text(message ?? FFULocalizations.of(context).errorOccurred),
           ],
         ),
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          child: new Row(
+            children: <Widget>[
+              new Text(FFULocalizations.of(context).cancelButtonLabel),
+            ],
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    ),
   );
 }
 

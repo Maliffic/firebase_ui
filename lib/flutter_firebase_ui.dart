@@ -17,6 +17,7 @@ class SignInScreen extends StatefulWidget {
       this.color = Colors.white,
       this.twitterConsumerKey,
       this.twitterConsumerSecret,
+      this.appleSignInAvailable,
       @required this.showBar,
       @required this.avoidBottomInset,
       @required this.bottomPadding,
@@ -35,6 +36,7 @@ class SignInScreen extends StatefulWidget {
   final bool avoidBottomInset;
   final double horizontalPadding;
   final double bottomPadding;
+  final bool appleSignInAvailable;
 
   @override
   _SignInScreenState createState() => new _SignInScreenState();
@@ -71,12 +73,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         padding: EdgeInsets.symmetric(
                             horizontal: widget.horizontalPadding),
                         child: LoginView(
-                          providers: _providers,
-                          passwordCheck: _passwordCheck,
-                          twitterConsumerKey: widget.twitterConsumerKey,
-                          twitterConsumerSecret: widget.twitterConsumerSecret,
-                          bottomPadding: widget.bottomPadding,
-                        )),
+                            providers: _providers,
+                            passwordCheck: _passwordCheck,
+                            twitterConsumerKey: widget.twitterConsumerKey,
+                            twitterConsumerSecret: widget.twitterConsumerSecret,
+                            bottomPadding: widget.bottomPadding,
+                            appleSignIn: widget.appleSignInAvailable)),
                   ),
                   _footer
                 ],

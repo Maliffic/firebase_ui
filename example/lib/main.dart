@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_ui/flutter_firebase_ui.dart';
 import 'package:firebase_ui/l10n/localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:apple_sign_in/apple_sign_in.dart';
 
 void main() => runApp(new MyApp());
 
@@ -52,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+
     _checkCurrentUser();
   }
 
@@ -82,7 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ProvidersTypes.google,
           ProvidersTypes.facebook,
           ProvidersTypes.twitter,
-          ProvidersTypes.email
+          ProvidersTypes.email,
+          ProvidersTypes.apple
         ],
         twitterConsumerKey: "",
         twitterConsumerSecret: "", horizontalPadding: 12,
