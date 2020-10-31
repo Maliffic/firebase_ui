@@ -101,8 +101,8 @@ class _PasswordViewState extends State<PasswordView> {
 
   _connexion(BuildContext context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
-    AuthResult authResult;
-    FirebaseUser user;
+    UserCredential authResult;
+    User user;
     try {
       authResult = await _auth.signInWithEmailAndPassword(
           email: _controllerEmail.text, password: _controllerPassword.text);

@@ -1,10 +1,10 @@
-import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:apple_sign_in/apple_sign_in.dart' as Apple;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_twitter/flutter_twitter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'email_view.dart';
 import 'utils.dart';
@@ -33,7 +33,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final Future<bool> _isAvailableFuture = AppleSignIn.isAvailable();
+  final Future<bool> _isAvailableFuture = Apple.AppleSignIn.isAvailable();
 
   Map<ProvidersTypes, dynamic> _buttons;
 
@@ -56,8 +56,8 @@ class _LoginViewState extends State<LoginView> {
         try {
           AuthCredential credential = GoogleAuthProvider.getCredential(
               idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-          AuthResult authResult = await _auth.signInWithCredential(credential);
-          FirebaseUser user = authResult.user;
+          UserCredential authResult = await _auth.signInWithCredential(credential);
+          User user = authResult.user;
           print(user);
         } catch (e) {
           showErrorDialog(context, e.details);
@@ -70,10 +70,9 @@ class _LoginViewState extends State<LoginView> {
     FacebookLoginResult result = await facebookLogin.logIn(['email']);
     if (result.accessToken != null) {
       try {
-        AuthCredential credential = FacebookAuthProvider.getCredential(
-            accessToken: result.accessToken.token);
-        AuthResult authResult = await _auth.signInWithCredential(credential);
-        FirebaseUser user = authResult.user;
+        AuthCredential credential = FacebookAuthProvider.credential(result.accessToken.token);
+        UserCredential authResult = await _auth.signInWithCredential(credential);
+        User user = authResult.user;
         print(user);
       } catch (e) {
         showErrorDialog(context, e.details);
@@ -91,9 +90,7 @@ class _LoginViewState extends State<LoginView> {
 
     switch (result.status) {
       case TwitterLoginStatus.loggedIn:
-        AuthCredential credential = TwitterAuthProvider.getCredential(
-            authToken: result.session.token,
-            authTokenSecret: result.session.secret);
+        AuthCredential credential = TwitterAuthProvider.credential(accessToken:result.session.token,secret: result.session.secret);
         await _auth.signInWithCredential(credential);
         break;
       case TwitterLoginStatus.cancelledByUser:
@@ -105,37 +102,36 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
-  Future<FirebaseUser> _signInWithApple({List<Scope> scopes = const []}) async {
+  Future<User> _signInWithApple({List<Apple.Scope> scopes = const []}) async {
     // 1. perform the sign-in request
-    final result = await AppleSignIn.performRequests(
-        [AppleIdRequest(requestedScopes: scopes)]);
+    final result = await Apple.AppleSignIn.performRequests(
+        [Apple.AppleIdRequest(requestedScopes: scopes)]);
     // 2. check the result
     switch (result.status) {
-      case AuthorizationStatus.authorized:
+      case Apple.AuthorizationStatus.authorized:
         final appleIdCredential = result.credential;
-        final oAuthProvider = OAuthProvider(providerId: 'apple.com');
-        final credential = oAuthProvider.getCredential(
+        final oAuthProvider = OAuthProvider('apple.com');
+        final credential = oAuthProvider.credential(
           idToken: String.fromCharCodes(appleIdCredential.identityToken),
           accessToken:
               String.fromCharCodes(appleIdCredential.authorizationCode),
         );
         final authResult = await _auth.signInWithCredential(credential);
         final firebaseUser = authResult.user;
-        if (scopes.contains(Scope.fullName)) {
-          final updateUser = UserUpdateInfo();
-          updateUser.displayName =
+        if (scopes.contains(Apple.Scope.fullName)) {
+         var displayName =
               '${appleIdCredential.fullName.givenName} ${appleIdCredential.fullName.familyName}';
-          await firebaseUser.updateProfile(updateUser);
+          await firebaseUser.updateProfile(displayName: displayName);
         }
         return firebaseUser;
-      case AuthorizationStatus.error:
+      case Apple.AuthorizationStatus.error:
         print(result.error.toString());
         throw PlatformException(
           code: 'ERROR_AUTHORIZATION_DENIED',
           message: result.error.toString(),
         );
 
-      case AuthorizationStatus.cancelled:
+      case Apple.AuthorizationStatus.cancelled:
         throw PlatformException(
           code: 'ERROR_ABORTED_BY_USER',
           message: 'Sign in aborted by user',
@@ -151,11 +147,11 @@ class _LoginViewState extends State<LoginView> {
           future: _isAvailableFuture,
           builder: (context, isAvailableSnapshot) {
             if (isAvailableSnapshot.hasData && isAvailableSnapshot.data) {
-              return AppleSignInButton(
-                style: ButtonStyle.white, // style as needed
-                type: ButtonType.signIn, // style as needed
+              return Apple.AppleSignInButton(
+                style: Apple.ButtonStyle.white, // style as needed
+                type: Apple.ButtonType.signIn, // style as needed
                 onPressed: () =>
-                    _signInWithApple(scopes: [Scope.email, Scope.fullName]),
+                    _signInWithApple(scopes: [Apple.Scope.email,Apple.Scope.fullName]),
               );
             } else {
               return Container();

@@ -133,15 +133,14 @@ class _SignUpViewState extends State<SignUpView> {
 
     FirebaseAuth _auth = FirebaseAuth.instance;
     try {
-      AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+      UserCredential authResult = await _auth.createUserWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
-      FirebaseUser user = authResult.user;
+      User user = authResult.user;
       try {
-        var userUpdateInfo = new UserUpdateInfo();
-        userUpdateInfo.displayName = _controllerDisplayName.text;
-        await user.updateProfile(userUpdateInfo);
+        var displayName = _controllerDisplayName.text;
+        await user.updateProfile(displayName: displayName);
         Navigator.pop(context, true);
       } catch (e) {
         showErrorDialog(context, e.details);

@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui/flutter_firebase_ui.dart';
 import 'package:firebase_ui/l10n/localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:apple_sign_in/apple_sign_in.dart';
 
 void main() => runApp(new MyApp());
 
@@ -45,17 +45,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  StreamSubscription<FirebaseUser> _listener;
-
-  FirebaseUser _currentUser;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _checkCurrentUser();
-  }
+  FirebaseAuth _auth;
+  User _currentUser;
+  bool _error = false;
+  bool _initialized = false;
+  StreamSubscription<User> _listener;
 
   @override
   void dispose() {
@@ -64,7 +58,44 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    initializeFlutterFire();
+    super.initState();
+  }
+
+  void initializeFlutterFire() async {
+    try {
+      // Wait for Firebase to initialize and set `_initialized` state to true
+      await Firebase.initializeApp();
+      setState(() {
+        _auth = FirebaseAuth.instance;
+        _initialized = true;
+        _checkCurrentUser();
+      });
+    } catch (e) {
+      // Set `_error` state to true if Firebase initialization fails
+      setState(() {
+        _error = true;
+      });
+    }
+  }
+
+  void _checkCurrentUser() async {
+    _currentUser = _auth.currentUser;
+    _currentUser?.getIdToken(true);
+
+    _listener = _auth.authStateChanges().listen((User user) {
+      setState(() {
+        _currentUser = user;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (!_initialized) {
+      return Text('Loading');
+    }
     if (_currentUser == null) {
       return new SignInScreen(
         title: "Demo",
@@ -94,23 +125,16 @@ class _MyHomePageState extends State<MyHomePage> {
       return new HomeScreen(user: _currentUser);
     }
   }
-
-  void _checkCurrentUser() async {
-    _currentUser = await _auth.currentUser();
-    _currentUser?.getIdToken(refresh: true);
-
-    _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
-      setState(() {
-        _currentUser = user;
-      });
-    });
-  }
 }
 
 class HomeScreen extends StatelessWidget {
+  HomeScreen({this.user});
+
   final FirebaseUser user;
 
-  HomeScreen({this.user});
+  void _logout() {
+    signOutProviders();
+  }
 
   @override
   Widget build(BuildContext context) => new Scaffold(
@@ -142,8 +166,4 @@ class HomeScreen extends StatelessWidget {
                   child: new Text("DECONNEXION"), onPressed: _logout)
             ],
           )));
-
-  void _logout() {
-    signOutProviders();
-  }
 }

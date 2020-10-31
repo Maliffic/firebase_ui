@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:apple_sign_in/apple_sign_in.dart';
-
-import 'package:firebase_ui/l10n/localization.dart';
 
 enum ProvidersTypes { email, google, facebook, twitter, phone, apple }
 
@@ -138,7 +136,7 @@ Future<Null> showErrorDialog(BuildContext context, String message,
 }
 
 Future<void> signOutProviders() async {
-  var currentUser = await FirebaseAuth.instance.currentUser();
+  var currentUser =  FirebaseAuth.instance.currentUser;
   if (currentUser != null) {
     await signOut(currentUser.providerData);
   }
