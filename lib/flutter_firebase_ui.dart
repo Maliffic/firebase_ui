@@ -8,7 +8,7 @@ import 'utils.dart';
 
 class SignInScreen extends StatefulWidget {
   SignInScreen(
-      {Key key,
+      {Key? key,
       this.title,
       this.header,
       this.footer,
@@ -18,25 +18,25 @@ class SignInScreen extends StatefulWidget {
       this.twitterConsumerKey,
       this.twitterConsumerSecret,
       this.appleSignInAvailable,
-      @required this.showBar,
-      @required this.avoidBottomInset,
-      @required this.bottomPadding,
-      @required this.horizontalPadding})
+      required this.showBar,
+      required this.avoidBottomInset,
+      required this.bottomPadding,
+      required this.horizontalPadding})
       : super(key: key);
 
-  final String title;
-  final Widget header;
-  final Widget footer;
-  final List<ProvidersTypes> providers;
+  final String? title;
+  final Widget? header;
+  final Widget? footer;
+  final List<ProvidersTypes>? providers;
   final Color color;
-  final bool signUpPasswordCheck;
-  final String twitterConsumerKey;
-  final String twitterConsumerSecret;
+  final bool? signUpPasswordCheck;
+  final String? twitterConsumerKey;
+  final String? twitterConsumerSecret;
   final bool showBar;
   final bool avoidBottomInset;
   final double horizontalPadding;
   final double bottomPadding;
-  final bool appleSignInAvailable;
+  final bool? appleSignInAvailable;
 
   @override
   _SignInScreenState createState() => new _SignInScreenState();
@@ -55,7 +55,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) => new Scaffold(
       appBar: widget.showBar
           ? new AppBar(
-              title: new Text(widget.title),
+              title: new Text(widget.title!),
               elevation: 4.0,
             )
           : null,
@@ -75,8 +75,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         child: LoginView(
                             providers: _providers,
                             passwordCheck: _passwordCheck,
-                            twitterConsumerKey: widget.twitterConsumerKey,
-                            twitterConsumerSecret: widget.twitterConsumerSecret,
+                           /*  twitterConsumerKey: widget.twitterConsumerKey,
+                            twitterConsumerSecret: widget.twitterConsumerSecret, */
                             bottomPadding: widget.bottomPadding,
                             appleSignIn: widget.appleSignInAvailable)),
                   ),

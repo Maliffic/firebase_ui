@@ -7,19 +7,19 @@ import 'utils.dart';
 
 class SignUpView extends StatefulWidget {
   final String email;
-  final bool passwordCheck;
+  final bool? passwordCheck;
 
-  SignUpView(this.email, this.passwordCheck, {Key key}) : super(key: key);
+  SignUpView(this.email, this.passwordCheck, {Key? key}) : super(key: key);
 
   @override
   _SignUpViewState createState() => new _SignUpViewState();
 }
 
 class _SignUpViewState extends State<SignUpView> {
-  TextEditingController _controllerEmail;
-  TextEditingController _controllerDisplayName;
-  TextEditingController _controllerPassword;
-  TextEditingController _controllerCheckPassword;
+  TextEditingController? _controllerEmail;
+  TextEditingController? _controllerDisplayName;
+  TextEditingController? _controllerPassword;
+  TextEditingController? _controllerCheckPassword;
 
   final FocusNode _focusPassword = FocusNode();
 
@@ -42,10 +42,10 @@ class _SignUpViewState extends State<SignUpView> {
 
   @override
   Widget build(BuildContext context) {
-    _controllerEmail.text = widget.email;
+    _controllerEmail!.text = widget.email;
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(FFULocalizations.of(context).signUpTitle),
+        title: new Text(FFULocalizations.of(context).signUpTitle!),
         elevation: 4.0,
       ),
       body: new Builder(
@@ -83,7 +83,7 @@ class _SignUpViewState extends State<SignUpView> {
                   decoration: new InputDecoration(
                       labelText: FFULocalizations.of(context).passwordLabel),
                 ),
-                !widget.passwordCheck
+                !widget.passwordCheck!
                     ? new Container()
                     : new TextField(
                         controller: _controllerCheckPassword,
@@ -103,11 +103,11 @@ class _SignUpViewState extends State<SignUpView> {
           alignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            new FlatButton(
+            new TextButton(
                 onPressed: _valid ? () => _connexion(context) : null,
                 child: new Row(
                   children: <Widget>[
-                    new Text(FFULocalizations.of(context).saveLabel),
+                    new Text(FFULocalizations.of(context).saveLabel!),
                   ],
                 )),
           ],
@@ -125,8 +125,8 @@ class _SignUpViewState extends State<SignUpView> {
   }
 
   _connexion(BuildContext context) async {
-    if (widget.passwordCheck &&
-        _controllerPassword.text != _controllerCheckPassword.text) {
+    if (widget.passwordCheck! &&
+        _controllerPassword!.text != _controllerCheckPassword!.text) {
       showErrorDialog(context, FFULocalizations.of(context).passwordCheckError);
       return;
     }
@@ -134,28 +134,28 @@ class _SignUpViewState extends State<SignUpView> {
     FirebaseAuth _auth = FirebaseAuth.instance;
     try {
       UserCredential authResult = await _auth.createUserWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
+        email: _controllerEmail!.text,
+        password: _controllerPassword!.text,
       );
-      User user = authResult.user;
+      User user = authResult.user!;
       try {
-        var displayName = _controllerDisplayName.text;
-        await user.updateProfile(displayName: displayName);
+        var displayName = _controllerDisplayName!.text;
+        await user.updateDisplayName(displayName);
         Navigator.pop(context, true);
       } catch (e) {
-        showErrorDialog(context, e.details);
+        showErrorDialog(context, e.toString());
       }
     } on PlatformException catch (e) {
       print(e.details);
       //TODO improve errors catching
-      String msg = FFULocalizations.of(context).passwordLengthMessage;
+      String? msg = FFULocalizations.of(context).passwordLengthMessage;
       showErrorDialog(context, msg);
     }
   }
 
   void _checkValid(String value) {
     setState(() {
-      _valid = _controllerDisplayName.text.isNotEmpty;
+      _valid = _controllerDisplayName!.text.isNotEmpty;
     });
   }
 }

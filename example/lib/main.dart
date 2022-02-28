@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class HomeScreen extends StatelessWidget {
   HomeScreen({this.user});
 
-  final FirebaseUser user;
+  final User user;
 
   void _logout() {
     signOutProviders();
@@ -162,7 +162,7 @@ class HomeScreen extends StatelessWidget {
               new SizedBox(
                 height: 32.0,
               ),
-              new RaisedButton(
+              new ElevatedButton(
                   child: new Text("DECONNEXION"), onPressed: _logout)
             ],
           )));
