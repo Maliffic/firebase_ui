@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -7,9 +9,9 @@ import 'sign_up_view.dart';
 import 'utils.dart';
 
 class EmailView extends StatefulWidget {
-  final bool passwordCheck;
+  final bool? passwordCheck;
 
-  EmailView(this.passwordCheck, {Key key}) : super(key: key);
+  EmailView(this.passwordCheck, {Key? key}) : super(key: key);
 
   @override
   _EmailViewState createState() => new _EmailViewState();
@@ -21,7 +23,7 @@ class _EmailViewState extends State<EmailView> {
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(
-          title: new Text(FFULocalizations.of(context).welcome),
+          title: new Text(FFULocalizations.of(context).welcome!),
           elevation: 4.0,
         ),
         body: new Builder(
@@ -49,11 +51,11 @@ class _EmailViewState extends State<EmailView> {
             alignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              new FlatButton(
+              new ElevatedButton(
                   onPressed: () => _connexion(context),
                   child: new Row(
                     children: <Widget>[
-                      new Text(FFULocalizations.of(context).nextButtonLabel),
+                      new Text(FFULocalizations.of(context).nextButtonLabel!),
                     ],
                   )),
             ],
@@ -69,23 +71,23 @@ class _EmailViewState extends State<EmailView> {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
       List<String> providers =
-          await auth.fetchSignInMethodsForEmail( _controllerEmail.text);
+          await auth.fetchSignInMethodsForEmail(_controllerEmail.text);
       print(providers);
 
       if (providers == null || providers.isEmpty) {
-        bool connected = await Navigator.of(context)
+        bool connected = await (Navigator.of(context)
             .push(new MaterialPageRoute<bool>(builder: (BuildContext context) {
           return new SignUpView(_controllerEmail.text, widget.passwordCheck);
-        }));
+        })) as FutureOr<bool>);
 
         if (connected) {
           Navigator.pop(context);
         }
       } else if (providers.contains('password')) {
-        bool connected = await Navigator.of(context)
+        bool connected = await (Navigator.of(context)
             .push(new MaterialPageRoute<bool>(builder: (BuildContext context) {
           return new PasswordView(_controllerEmail.text);
-        }));
+        })) as FutureOr<bool>);
 
         if (connected) {
           Navigator.pop(context);
@@ -108,55 +110,55 @@ class _EmailViewState extends State<EmailView> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) => new AlertDialog(
-            content: new SingleChildScrollView(
-                child: new ListBody(
+        content: new SingleChildScrollView(
+            child: new ListBody(
+          children: <Widget>[
+            new Text(FFULocalizations.of(context)
+                .allReadyEmailMessage(email, providerName)!),
+            new SizedBox(
+              height: 16.0,
+            ),
+            new Column(
+              children: providers.map((String p) {
+                return new ElevatedButton(
+                  child: new Row(
+                    children: <Widget>[
+                      new Text(_providerStringToButton(p)!),
+                    ],
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(p);
+                  },
+                );
+              }).toList(),
+            )
+          ],
+        )),
+        actions: <Widget>[
+          new TextButton(
+            child: new Row(
               children: <Widget>[
-                new Text(FFULocalizations.of(context)
-                    .allReadyEmailMessage(email, providerName)),
-                new SizedBox(
-                  height: 16.0,
-                ),
-                new Column(
-                  children: providers.map((String p) {
-                    return new RaisedButton(
-                      child: new Row(
-                        children: <Widget>[
-                          new Text(_providerStringToButton(p)),
-                        ],
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop(p);
-                      },
-                    );
-                  }).toList(),
-                )
+                new Text(FFULocalizations.of(context).cancelButtonLabel!),
               ],
-            )),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Row(
-                  children: <Widget>[
-                    new Text(FFULocalizations.of(context).cancelButtonLabel),
-                  ],
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop('');
-                },
-              ),
-            ],
+            ),
+            onPressed: () {
+              Navigator.of(context).pop('');
+            },
           ),
+        ],
+      ),
     );
   }
 
   String _providersToString(List<String> providers) {
     return providers.map((String provider) {
-      ProvidersTypes type = stringToProvidersType(provider);
-      return providersDefinitions(context)[type]?.name;
+      ProvidersTypes? type = stringToProvidersType(provider);
+      return providersDefinitions(context)[type!]?.name;
     }).join(", ");
   }
 
-  String _providerStringToButton(String provider) {
-    ProvidersTypes type = stringToProvidersType(provider);
-    return providersDefinitions(context)[type]?.label;
+  String? _providerStringToButton(String provider) {
+    ProvidersTypes? type = stringToProvidersType(provider);
+    return providersDefinitions(context)[type!]?.label;
   }
 }

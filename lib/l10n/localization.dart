@@ -6,53 +6,53 @@ import 'package:flutter/material.dart';
 import 'translations.dart';
 
 class FFULocalizations {
-  TranslationBundle _translationBundle;
+  late TranslationBundle _translationBundle;
 
   FFULocalizations(Locale locale) {
     _translationBundle = translationBundleForLocale(locale);
   }
 
-  String get welcome => _translationBundle.welcome;
+  String? get welcome => _translationBundle.welcome;
 
-  String get signUpTitle => _translationBundle.signUpTitle;
+  String? get signUpTitle => _translationBundle.signUpTitle;
 
-  String get emailLabel => _translationBundle.emailLabel;
+  String? get emailLabel => _translationBundle.emailLabel;
 
-  String get nextButtonLabel => _translationBundle.nextButtonLabel;
+  String? get nextButtonLabel => _translationBundle.nextButtonLabel;
 
-  String get cancelButtonLabel => _translationBundle.cancelButtonLabel;
+  String? get cancelButtonLabel => _translationBundle.cancelButtonLabel;
 
-  String get passwordLabel => _translationBundle.passwordLabel;
-  String get passwordCheckLabel => _translationBundle.passwordCheckLabel;
-  String get passwordCheckError => _translationBundle.passwordCheckError;
+  String? get passwordLabel => _translationBundle.passwordLabel;
+  String? get passwordCheckLabel => _translationBundle.passwordCheckLabel;
+  String? get passwordCheckError => _translationBundle.passwordCheckError;
 
-  String get troubleSigningInLabel => _translationBundle.troubleSigningInLabel;
+  String? get troubleSigningInLabel => _translationBundle.troubleSigningInLabel;
 
-  String get signInLabel => _translationBundle.signInLabel;
+  String? get signInLabel => _translationBundle.signInLabel;
 
-  String get signInTitle => _translationBundle.signInTitle;
+  String? get signInTitle => _translationBundle.signInTitle;
 
-  String get passwordInvalidMessage =>
+  String? get passwordInvalidMessage =>
       _translationBundle.passwordInvalidMessage;
 
-  String get recoverPasswordTitle => _translationBundle.recoverPasswordTitle;
+  String? get recoverPasswordTitle => _translationBundle.recoverPasswordTitle;
 
-  String get recoverHelpLabel => _translationBundle.recoverHelpLabel;
+  String? get recoverHelpLabel => _translationBundle.recoverHelpLabel;
 
-  String get sendButtonLabel => _translationBundle.sendButtonLabel;
+  String? get sendButtonLabel => _translationBundle.sendButtonLabel;
 
-  String get nameLabel => _translationBundle.nameLabel;
+  String? get nameLabel => _translationBundle.nameLabel;
 
-  String get saveLabel => _translationBundle.saveLabel;
+  String? get saveLabel => _translationBundle.saveLabel;
 
-  String get passwordLengthMessage => _translationBundle.passwordLengthMessage;
+  String? get passwordLengthMessage => _translationBundle.passwordLengthMessage;
 
-  String get signInFacebook => _translationBundle.signInFacebook;
-  String get signInGoogle => _translationBundle.signInGoogle;
-  String get signInEmail => _translationBundle.signInEmail;
-  String get signInTwitter => _translationBundle.signInTwitter;
+  String? get signInFacebook => _translationBundle.signInFacebook;
+  String? get signInGoogle => _translationBundle.signInGoogle;
+  String? get signInEmail => _translationBundle.signInEmail;
+  String? get signInTwitter => _translationBundle.signInTwitter;
 
-  String get errorOccurred => _translationBundle.errorOccurred;
+  String? get errorOccurred => _translationBundle.errorOccurred;
 
   static Future<FFULocalizations> load(Locale locale) {
     return new SynchronousFuture<FFULocalizations>(
@@ -67,10 +67,10 @@ class FFULocalizations {
   static const LocalizationsDelegate<FFULocalizations> delegate =
       const _FFULocalizationsDelegate();
 
-  String allReadyEmailMessage(String email, String providerName) =>
+  String? allReadyEmailMessage(String email, String providerName) =>
       _translationBundle.allReadyEmailMessage(email, providerName);
 
-  String recoverDialog(String email) => _translationBundle.recoverDialog(email);
+  String? recoverDialog(String email) => _translationBundle.recoverDialog(email);
 }
 
 class _DefaultFFULocalizations extends FFULocalizations {

@@ -4,14 +4,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui/l10n/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+// import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 enum ProvidersTypes { email, google, facebook, twitter, phone, apple }
+/* TODO Add 3rd party logins */
 
 final GoogleSignIn googleSignIn = new GoogleSignIn();
-final FacebookLogin facebookLogin = new FacebookLogin();
+// final FacebookLogin facebookLogin = new FacebookLogin();
 
-ProvidersTypes stringToProvidersType(String value) {
+ProvidersTypes? stringToProvidersType(String value) {
   if (value.toLowerCase().contains('facebook')) return ProvidersTypes.facebook;
   if (value.toLowerCase().contains('google')) return ProvidersTypes.google;
   if (value.toLowerCase().contains('password')) return ProvidersTypes.email;
@@ -22,28 +24,28 @@ ProvidersTypes stringToProvidersType(String value) {
 
 // Description button
 class ButtonDescription extends StatelessWidget {
-  final String label;
+  final String? label;
   final Color labelColor;
   final Color color;
   final String logo;
   final String name;
-  final VoidCallback onSelected;
+  final VoidCallback? onSelected;
 
   const ButtonDescription(
-      {@required this.logo,
-      @required this.label,
-      @required this.name,
+      {required this.logo,
+      required this.label,
+      required this.name,
       this.onSelected,
       this.labelColor = Colors.grey,
       this.color = Colors.white});
 
   ButtonDescription copyWith({
-    String label,
-    Color labelColor,
-    Color color,
-    String logo,
-    String name,
-    VoidCallback onSelected,
+    String? label,
+    Color? labelColor,
+    Color? color,
+    String? logo,
+    String? name,
+    VoidCallback? onSelected,
   }) {
     return new ButtonDescription(
         label: label ?? this.label,
@@ -57,8 +59,10 @@ class ButtonDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoidCallback _onSelected = onSelected ?? () => {};
-    return new RaisedButton(
-        color: color,
+    return new ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: color),
+/*         color: color,
+ */
         child: new Row(
           children: <Widget>[
             new Container(
@@ -66,7 +70,7 @@ class ButtonDescription extends StatelessWidget {
                 child: new Image.asset('assets/$logo', package: 'firebase_ui')),
             new Expanded(
               child: new Text(
-                label,
+                label!,
                 style: new TextStyle(color: labelColor),
               ),
             )
@@ -105,8 +109,8 @@ Map<ProvidersTypes, ButtonDescription> providersDefinitions(
           labelColor: Colors.white),
     };
 
-Future<Null> showErrorDialog(BuildContext context, String message,
-    {String title}) {
+Future<Null> showErrorDialog(BuildContext context, String? message,
+    {String? title}) {
   return showDialog<Null>(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -115,15 +119,15 @@ Future<Null> showErrorDialog(BuildContext context, String message,
       content: new SingleChildScrollView(
         child: new ListBody(
           children: <Widget>[
-            new Text(message ?? FFULocalizations.of(context).errorOccurred),
+            new Text(message ?? FFULocalizations.of(context).errorOccurred!),
           ],
         ),
       ),
       actions: <Widget>[
-        new FlatButton(
+        new TextButton(
           child: new Row(
             children: <Widget>[
-              new Text(FFULocalizations.of(context).cancelButtonLabel),
+              new Text(FFULocalizations.of(context).cancelButtonLabel!),
             ],
           ),
           onPressed: () {
@@ -136,7 +140,7 @@ Future<Null> showErrorDialog(BuildContext context, String message,
 }
 
 Future<void> signOutProviders() async {
-  var currentUser =  FirebaseAuth.instance.currentUser;
+  var currentUser = FirebaseAuth.instance.currentUser;
   if (currentUser != null) {
     await signOut(currentUser.providerData);
   }
@@ -145,11 +149,11 @@ Future<void> signOutProviders() async {
 }
 
 Future<dynamic> signOut(Iterable providers) async {
-  return Future.forEach(providers, (p) async {
+  return Future.forEach(providers, (dynamic p) async {
     switch (p.providerId) {
       case 'facebook.com':
-        await facebookLogin.logOut();
-        break;
+      /*  await facebookLogin.logOut();
+        break; */
       case 'google.com':
         await googleSignIn.signOut();
         break;
